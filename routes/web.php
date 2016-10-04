@@ -35,3 +35,7 @@ Route::get('/_debugbar/open', [
 
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
