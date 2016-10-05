@@ -40,10 +40,7 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
-if (env('APP_DEBUG')) {
- $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
- 
-}
+
 
 /*
 |--------------------------------------------------------------------------

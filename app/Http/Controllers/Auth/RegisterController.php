@@ -6,6 +6,7 @@ use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Gravatar;
 
 class RegisterController extends Controller
 {
@@ -61,11 +62,30 @@ class RegisterController extends Controller
      * @return User
      */
     protected function create(array $data)
-    {
-        return User::create([
+    {   
+        $img = $this->getGravatar($data['email']);
+        $imageName = time().'.png';
+        $imgDefault = 'default.png';
+        $succes = file_put_contents(public_path('avatar').'/'.$imageName, $img);
+        if($succes != false){
+            $imgDefault = $imageName;
+        }
+        
+        $oParams = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'avatar' => $imgDefault,
         ]);
+        $aParams = $oParams;
+        $aParams->toArray();
+        $this->redirectTo = '/registersUsers/'.$aParams['id'].'/'.$aParams['name'];
+        return $oParams;
+    }
+    protected function getGravatar($email){
+        $hash = md5($email);
+        return file_get_contents('http://www.gravatar.com/avatar/'
+                .$hash.
+                '?s=120&d=monsterid');
     }
 }
