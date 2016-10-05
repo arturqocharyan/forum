@@ -4,8 +4,24 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Laravel 5.3 - Angular 2</title>
+
+        <!-- 1. Load libraries -->
+        <!-- Polyfill(s) for older browsers -->
+        {{ Html::script('core-js/client/shim.min.js') }}
+        {{ Html::script('zone.js/dist/zone.js') }}
+        {{ Html::script('reflect-metadata/Reflect.js') }}
+        {{ Html::script('systemjs/dist/system.src.js') }}
+        {{ Html::script('systemjs.config.js') }}
+
+        <script>
+            System.import('app').catch(function(err){ console.error(err); });
+        </script>
+        
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -65,6 +81,7 @@
         </style>
     </head>
     <body>
+        <my-app>Loading...</my-app>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
