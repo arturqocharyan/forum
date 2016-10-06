@@ -16,4 +16,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 Route::get('registersUsers/{id}/{name}', 'HomeController@registersUsers');
-Route::post('PostAvatarUpload/','HomeController@PostAvatarUpload');
+Route::post('PostAvatarUpload/{id}','HomeController@PostAvatarUpload');
+Route::get('/redirect', 'SocialAuthController@redirect');
+Route::get('/callback', 'SocialAuthController@callback');
