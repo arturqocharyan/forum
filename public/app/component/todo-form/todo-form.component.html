@@ -1,0 +1,6 @@
+<form class="form-search" method="get" id="addItem" action="/">
+    <div class="input-append">
+        <input type="text" class="input-medium search-query" name="s" placeholder="Add Todos" (keyup.enter)= 'add(titleInput.value);titleInput.value = ""' #titleInput>
+        <button type="submit" class="add-on btn-primary" (click) = 'add(titleInput.value);titleInput.value = ""'>Add</button>
+    </div>
+</form>

@@ -1,0 +1,5 @@
+<li>
+    <input type='checkbox' (change)="toggleDone()" style="margin-right:5px">
+    <span [ngClass] = "{done: todo.done}">{{todo.title}} </span>
+    <button class="badge btn btn-danger" (click) = "delete()">Delete</button>
+</li>

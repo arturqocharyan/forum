@@ -1,0 +1,5 @@
+<ul class="list-group" *ngIf = "todos.length  > 0">
+    <todo-item class="list-group-item" *ngFor = "let todo of sortedTodos" [todo]="todo" (deleted) = "deleteToDo(todo)">
+        
+    </todo-item>
+</ul>

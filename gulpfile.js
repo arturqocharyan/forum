@@ -27,24 +27,24 @@ elixir(mix => {
     .copy('node_modules/reflect-metadata', 'public/reflect-metadata')
     .copy('node_modules/systemjs', 'public/systemjs')
     .copy('node_modules/rxjs', 'public/rxjs')
-    .copy('node_modules/zone.js', 'public/zone.js')
+    .copy('node_modules/zone.js', 'public/zone.js');
 
-    .typescript(
-        [
-            'app.component.ts',
-            'app.module.ts',
-            'main.ts'
-        ],
-        'public/app',
-        {
-            "target": "es5",
-            "module": "system",
-            "moduleResolution": "node",
-            "sourceMap": true,
-            "emitDecoratorMetadata": true,
-            "experimentalDecorators": true,
-            "removeComments": false,
-            "noImplicitAny": false
-        }
-    );
+//    .typescript(
+//        [
+//            'app.component.ts',
+//            'app.module.ts',
+//            'main.ts'
+//        ],
+//        'public/app',
+//        {
+//            "target": "es5",
+//            "module": "system",
+//            "moduleResolution": "node",
+//            "sourceMap": true,
+//            "emitDecoratorMetadata": true,
+//            "experimentalDecorators": true,
+//            "removeComments": false,
+//            "noImplicitAny": false
+//        }
+//    );
 });
