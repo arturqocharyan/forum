@@ -31,9 +31,7 @@ elixir(mix => {
 
     .typescript(
         [
-            'app.component.ts',
-            'app.module.ts',
-            'main.ts'
+            '/**/*.ts','/**/**/*.ts',
         ],
         'public/app',
         {
