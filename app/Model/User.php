@@ -11,10 +11,10 @@ class User extends Model
         '1'=>'admin'
     );
     protected $fillable = [
-        'name', 'email', 'password','avatar',
+        'name', 'email', 'password','avatar','username',
     ];
     public static function getEmailAndAvatarById($id){
-        $query = User::select('avatar', 'email')->where('id',$id)->get()->toArray();
+        $query = User::select('avatar', 'email','username')->where('id',$id)->get()->toArray();
         return $query[0];
     }
     

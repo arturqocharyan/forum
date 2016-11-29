@@ -1,20 +1,26 @@
+import React from 'react'
+import { render } from 'react-dom'
+import { Router, Route, browserHistory,IndexRoute  } from 'react-router'
+import App from './components/App'
+import Register from './components/auth/Register'
+import Login from './components/auth/Login'
+import Home from  './components/Home'
+import User from './components/User'
+import RegistrEdit from './components/auth/RegistrEdit'
+import Facebook from './components/auth/Facebook'
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * include Vue and Vue Resource. This gives a great starting point for
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-require('./bootstrap');
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the body of the page. From here, you may begin adding components to
- * the application, or feel free to tweak this setup for your needs.
- */
-
-Vue.component('example', require('./components/Example.vue'));
-
-const app = new Vue({
-    el: 'body'
-});
+render((
+  
+  <Router history={browserHistory}>
+    <Route path="/" component={App}>
+      <IndexRoute component={Home}/>
+      <Route path="register" component={Register} />
+      <Route path="login" component={Login} />
+      <Route path="/registersUsers/:id/:username" component={RegistrEdit} />
+      <Route path="/users/:id" component={User} />
+      <Route path='/Home' component={User} />
+      <Route path='/redirect' component={RegistrEdit} />
+      
+    </Route>
+  </Router>
+), document.getElementById('app'))

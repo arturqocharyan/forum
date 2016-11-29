@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\Http\Requests;
 use App\Model\User;
 use Socialite;
-
+use Request;
+use Validator;
 class HomeController extends Controller
 {
     /**
@@ -16,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
     
     /**
@@ -29,42 +30,64 @@ class HomeController extends Controller
         
        return view('home.home');
     }
-    public function registersUsers($id,$name){
-       
+    
+    public function registersUsers($id,$name)
+    {
+        dd(Auth::user());
         return view('home.reg');
     }
-    public function PostAvatarUpload(Request $request){
-        $oldMailAndAvatar = User::getEmailAndAvatarById($request->id);
-        if($oldMailAndAvatar['email'] == $request->email){
-           $this->validate($request, [
-                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    
+    public function PostAvatarUpload(){
+        $request = Request::all();
+        $validData = [
                 'name' => 'required|max:255',
+                'username' => 'required|max:255',
                 'email' => 'required|email|max:255',
-            ]); 
+            ];
+        $oldMailAndAvatar = User::getEmailAndAvatarById($request['id']);
+        //dd($oldMailAndAvatar);
+        if($oldMailAndAvatar['email'] == $request['email'] && $oldMailAndAvatar['username'] == $request['username']){
+           $error = Validator::make($request, $validData)->errors(); 
+        }elseif($oldMailAndAvatar['email'] == $request['email']){
+            $validData['username'] = 'required|max:255|unique:users';
+            $error = Validator::make($request, $validData)->errors();
+                
+        }elseif($oldMailAndAvatar['username'] == $request['username']){
+            $validData['email'] = 'required|email|max:255|unique:users';
+            $error = Validator::make($request,$validData)->errors();
         }else{
-            $this->validate($request, [
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-        ]);
+            $validData['username'] = 'required|max:255|unique:users';
+            $validData['email'] = 'required|email|max:255|unique:users';
+            $error = Validator::make($request, $validData)->errors();
+
         }
-        if(isset($request->image)){
-            $imageName = time().'.'.$request->image->getClientOriginalExtension();
-            $success = $request->image->move(public_path('avatar'), $imageName);
+         
+        
+       
+        if(!empty($error->messages())){
+            
+            $response['errors']=$error->messages();
+            return response()->json($response, 200);
+        }
+        
+        if(isset($request['image']) && $request['image'] !='undefined'){
+            
+            $validData['image'] = 'image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+            $error = Validator::make($request,$validData)->errors();
+            $imageName = time().'.'.$request['image']->getClientOriginalExtension();
+            $success = $request['image']->move(public_path('avatar'), $imageName);
             if(isset($success)){
                unlink(public_path('avatar'.'/'.$oldMailAndAvatar['avatar']));
                 $oldMailAndAvatar['avatar'] = $imageName;
             }
         }
-        $user = User::find($request->id);
-            $user->name = $request->name;
-            $user->email = $request->email;
+        $user = User::find($request['id']);
+            $user->name = $request['name'];
+            $user->email = $request['email'];
             $user->avatar = $oldMailAndAvatar['avatar'];
         $user->save();
         
-    	return back()
-    		->with('success','Save')
-    		->with('path',$oldMailAndAvatar['avatar']);
+    	return response()->json($user, 200);
         
     }
 

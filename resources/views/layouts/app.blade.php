@@ -7,26 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+   <meta property="csrf-token" name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Forum.am') }}</title>
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
-    <!-- 1. Load libraries -->
-        <!-- Polyfill(s) for older browsers -->
-        {{ Html::script('core-js/client/shim.min.js') }}
-        {{ Html::script('zone.js/dist/zone.js') }}
-        {{ Html::script('reflect-metadata/Reflect.js') }}
-        {{ Html::script('systemjs/dist/system.src.js') }}
-        {{ Html::script('systemjs.config.js') }}
-
-        <script>
-            
-            System.import('app').catch(function(err){ console.error(err); });
-        </script>
-        
-
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
@@ -35,11 +23,10 @@
     </script>
 </head>
 <body>
-    <my-app>Loading...</my-app>
+    
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
-
                 <!-- Collapsed Hamburger -->
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                     <span class="sr-only">Toggle Navigation</span>

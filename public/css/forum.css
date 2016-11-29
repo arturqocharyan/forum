@@ -1,0 +1,62 @@
+body{
+    margin: 0px;
+}
+.header{
+    width: 100%;
+    height: 200px;
+}
+.center{
+    width: 80%;
+    margin: 0px auto;
+    height: 200px;
+    overflow: hidden;
+}
+.logoCodeRiders{
+    float: left;
+    height: 200px;
+    
+}
+.logoCodeRiders img{
+    width: 100%;
+    height: 80%;
+    
+}
+.top-right{
+    float: right;
+   
+}
+.links{
+    text-align: center;
+    margin-top: 50px;
+    
+}
+.links a{
+    text-decoration: none;
+    color: #777;
+    font-size: 18px;
+    margin-left: 5px; 
+}
+.links a:hover{
+    color: #333;
+    background-color: transparent;
+}
+.center-block{
+    float: none;
+}
+.pageLogo img{
+    height: 300px;
+    margin: 0px auto;
+}
+.inputClass{
+    opacity: 1 !important;
+}
+.userImg{
+    width: 200px;
+    height: 150px;
+}
+.kep-login-facebook{
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+

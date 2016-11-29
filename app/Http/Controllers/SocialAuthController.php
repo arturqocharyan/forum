@@ -17,12 +17,17 @@ class SocialAuthController extends Controller
         $user = $this->getUser(Socialite::driver('facebook')->user());
         
         if(isset($user['providerUser'])){
-             return view('home.social.socialReg',$user);
+           // return response()->json($user);
+            return view('home.social.socialReg',$user);
         }
         auth()->login($user);
         
         return redirect()->to('/home');
     }
+    public function callback1(){
+        return response()->json($user=['barev']);
+    }
+
     public function getUser(ProviderUser $providerUser)
     {
         $account = SocialAccount::whereProvider('facebook')
@@ -54,6 +59,7 @@ class SocialAuthController extends Controller
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
+            'username' => 'required|max:255|unique:users',
         ]);
         return redirect()->to('/home');
         return back()

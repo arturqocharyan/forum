@@ -9,13 +9,23 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
-Auth::routes();
 
-Route::get('/home', 'HomeController@index');
-Route::get('registersUsers/{id}/{name}', 'HomeController@registersUsers');
+Route::get('{slug}', function() {
+    return view('index');
+})
+->where('slug', '(?!api)([A-z\d-\/_.]+)?');
+Route::post('register','auth\RegisterController@create');
+Route::post('login','auth\LoginController@postLogin');
+Route::post('checkingUsername','auth\RegisterController@checkingUsername');
+Route::post('user/{id}','UsersController@show');
+
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+//Auth::routes();
+//
+//Route::get('/home', 'HomeController@index');
+
 Route::post('PostAvatarUpload/{id}','HomeController@PostAvatarUpload');
-Route::get('/redirect', 'SocialAuthController@redirect');
-Route::get('/callback', 'SocialAuthController@callback');
+//Route::get('/redirect', 'SocialAuthController@redirect');
+//Route::get('/callback', 'SocialAuthController@callback');

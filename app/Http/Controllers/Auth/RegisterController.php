@@ -6,6 +6,9 @@ use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
+use Request;
 use Socialite;
 
 class RegisterController extends Controller
@@ -37,7 +40,9 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+       
+        //$this->middleware('guest');
+         
     }
 
     /**
@@ -49,8 +54,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|min:3',
             'email' => 'required|email|max:255|unique:users',
+            'username' => 'required|max:255|unique:users|min:3',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -61,8 +67,16 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
+    protected function create()
     {   
+        $data = Request::all();
+        
+        $error = $this->validator($data)->errors();
+        //$error = json_decode($error);
+        $response['errors']=$error->messages();
+        if(!empty($error->messages())){
+            return response()->json($response, 200);
+        }
         $img = $this->getGravatar($data['email']);
         $imageName = time().'.png';
         $imgDefault = 'default.png';
@@ -76,9 +90,18 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'avatar' => $imgDefault,
+            'username'=>$data['username']
         ]);
         $aParams = $oParams;
         $aParams->toArray();
+        if(isset($oParams)){
+            $credentials = [
+                "email" => $data['email'],
+                "password" => $data['password']
+            ];
+            Auth::attempt($credentials, true);
+            
+        }
         $this->redirectTo = '/registersUsers/'.$aParams['id'].'/'.$aParams['name'];
         return $oParams;
     }
@@ -87,5 +110,20 @@ class RegisterController extends Controller
         return file_get_contents('http://www.gravatar.com/avatar/'
                 .$hash.
                 '?s=120&d=monsterid');
+    }
+    protected function checkingUsername(){
+        $data = Request::all();
+       
+        if(isset($data['id'])){
+            $oParams = User::select()
+                    ->where('username',$data['username'])
+                    ->where('id', '!=', $data['id'])
+                    ->get()
+                    ->count();
+            return json_encode($oParams);
+        }
+        $oParams = User::select()->where('username',$data['username'])->get()->count();
+        return json_encode($oParams);
+       
     }
 }
